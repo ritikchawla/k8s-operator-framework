@@ -1,0 +1,31 @@
+apiVersion: config.ritikchawla.dev/v1alpha1
+kind: MicroserviceConfig
+metadata:
+  name: sample-microservice
+spec:
+  service:
+    image: nginx:latest
+    port: 80
+    replicas: 3
+    resources:
+      cpu: "100m"
+      memory: "128Mi"
+    env:
+      - name: ENV
+        value: "production"
+  gitops:
+    repoURL: "https://github.com/example/microservices-config"
+    branch: "main"
+    path: "services/sample-microservice"
+    autoSync: true
+  istio:
+    enabled: true
+    virtualService:
+      hosts:
+        - "sample-microservice.example.com"
+      gateways:
+        - "istio-system/ingress-gateway"
+    destinationRule:
+      trafficPolicy:
+        loadBalancer:
+          simple: "ROUND_ROBIN"

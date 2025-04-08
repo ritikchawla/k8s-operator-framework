@@ -1,0 +1,23 @@
+# permissions for end users to view microserviceconfigs.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    app.kubernetes.io/name: k8s-operator-framework
+    app.kubernetes.io/managed-by: kustomize
+  name: microserviceconfig-viewer-role
+rules:
+- apiGroups:
+  - config.ritikchawla.dev
+  resources:
+  - microserviceconfigs
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - config.ritikchawla.dev
+  resources:
+  - microserviceconfigs/status
+  verbs:
+  - get
